@@ -21,9 +21,15 @@ router.put("/update_item", async (req, res, next) => {
   }
 });
 router.post("/search_by_value", async (req, res, next) => {
-  const { searchValue } = req.body;
+  const { searchValue  } = req.body;
+  const { category,order  } = req.body.sortValues;
+
   try {
-    const searchResult = await itemsService.SearchByValue(searchValue);
+    const searchResult = await itemsService.searchByValue(
+      searchValue,
+      category,
+      order,
+    );
     res.send(searchResult);
   } catch (err) {
     console.error(err);

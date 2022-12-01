@@ -27,11 +27,15 @@ const updateItems = async (itemDetail) => {
     console.error(err);
   }
 };
-const SearchByValue = async (searchValue) => {
+const searchByValue = async (searchValue, category, order) => {
   try {
-    const sql = `SELECT * FROM products where 
-      name LIKE ?;`;
-    const params = [`%${searchValue}%`];
+    let params;
+    let sql = `SELECT * FROM products where 
+      name LIKE ? `;
+    if (category !== "") {
+      sql += `ORDER BY ${category} ${order}`;
+    }
+    params = [`%${searchValue}%`];
     const res = await db.executeWithParameters(sql, params);
     return res;
   } catch (err) {
@@ -42,5 +46,5 @@ const SearchByValue = async (searchValue) => {
 module.exports = {
   getItems,
   updateItems,
-  SearchByValue,
+  searchByValue,
 };

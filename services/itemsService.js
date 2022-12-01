@@ -16,17 +16,18 @@ const updateItems = async (itemDetail) => {
     console.error(err);
   }
 };
-const SearchByValue = async (searchValue) => {
+const searchByValue = async (searchValue, category, order) => {
   try {
-    const response = await itemsDal.SearchByValue(searchValue);
+    const response = await itemsDal.searchByValue(searchValue, category, order);
     return response;
   } catch (err) {
     console.error(err);
   }
 };
 
+
 module.exports = {
   getItems,
   updateItems,
-  SearchByValue,
+  searchByValue,
 };
