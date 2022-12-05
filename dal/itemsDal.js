@@ -10,6 +10,35 @@ const getItems = async () => {
     console.error(err);
   }
 };
+const addNewItem = async (newItem) => {
+  console.log(newItem);
+
+  try {
+    const sql =
+      "INSERT INTO products (name,price,image,description) VALUES(?,?,?,?);";
+    const params = [
+      newItem.name,
+      newItem.price,
+      newItem.img,
+      newItem.description,
+    ];
+    const res = await db.executeWithParameters(sql, params);
+    console.log(res);
+    return true;
+  } catch (err) {
+    console.error(err);
+  }
+};
+const deleteItem = async (item) => {
+  try {
+    const sql = "DELETE FROM products WHERE id=?;";
+    const params = [item.id];
+    const res = await db.executeWithParameters(sql, params);
+    return true;
+  } catch (err) {
+    console.error(err);
+  }
+};
 const updateItems = async (itemDetail) => {
   try {
     const sql =
@@ -47,4 +76,6 @@ module.exports = {
   getItems,
   updateItems,
   searchByValue,
+  addNewItem,
+  deleteItem,
 };

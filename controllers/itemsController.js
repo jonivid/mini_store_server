@@ -9,6 +9,18 @@ router.get("/", async (req, res, next) => {
     console.error(err);
   }
 });
+router.post("/delete_item", async (req, res, next) => {
+  const { item } = req.body;
+
+  try {
+    const response = await itemsService.deleteItem(item);
+    if (response) {
+      res.status(200).json("Item deleted");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
 router.put("/update_item", async (req, res, next) => {
   const { editedItem } = req.body;
   try {
@@ -21,8 +33,8 @@ router.put("/update_item", async (req, res, next) => {
   }
 });
 router.post("/search_by_value", async (req, res, next) => {
-  const { searchValue  } = req.body;
-  const { category,order  } = req.body.sortValues;
+  const { searchValue } = req.body;
+  const { category, order } = req.body.sortValues;
 
   try {
     const searchResult = await itemsService.searchByValue(
