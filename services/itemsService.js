@@ -8,6 +8,14 @@ const getItems = async () => {
     console.error(err);
   }
 };
+const getItemById = async (id) => {
+  try {
+    const item = await itemsDal.getItemById(id);
+    return item;
+  } catch (err) {
+    console.error(err);
+  }
+};
 const addNewItem = async (newItem) => {
   try {
     const response = await itemsDal.addNewItem(newItem);
@@ -47,4 +55,5 @@ module.exports = {
   searchByValue,
   addNewItem,
   deleteItem,
+  getItemById,
 };

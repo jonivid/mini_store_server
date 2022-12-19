@@ -10,6 +10,16 @@ const getItems = async () => {
     console.error(err);
   }
 };
+const getItemById = async (id) => {
+  try {
+    const sql = "SELECT * FROM products where id = ?;";
+    const params = [id];
+    const res = await db.executeWithParameters(sql, params);
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+};
 const addNewItem = async (newItem) => {
   console.log(newItem);
 
@@ -78,4 +88,5 @@ module.exports = {
   searchByValue,
   addNewItem,
   deleteItem,
+  getItemById,
 };

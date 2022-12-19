@@ -9,6 +9,15 @@ router.get("/", async (req, res, next) => {
     console.error(err);
   }
 });
+router.get("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const item = await itemsService.getItemById(id);
+    res.send(item);
+  } catch (err) {
+    console.error(err);
+  }
+});
 router.post("/delete_item", async (req, res, next) => {
   const { item } = req.body;
 
