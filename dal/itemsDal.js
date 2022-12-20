@@ -1,4 +1,3 @@
-const { param } = require("../controllers/itemsController");
 const db = require("./connection-wrapper");
 
 const getItems = async () => {
