@@ -1,8 +1,8 @@
 const db = require("./connection-wrapper");
 
-const LoginWithGoogle = async (userDetails) => {
+const LoginWithGoogle = async (credentials) => {
   try {
-    console.log({ userDetails });
+    // console.log({ credentials });
     // const sql = "SELECT * FROM products;";
     // const params = [];
     // const res = await db.executeWithParameters(sql, params);

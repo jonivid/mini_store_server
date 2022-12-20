@@ -1,8 +1,8 @@
 const usersDal = require("../dal/usersDal");
 const { OAuth2Client } = require("google-auth-library");
 
-const LoginWithGoogle = async (userDetails) => {
-  const client = new OAuth2Client(userDetails.sub);
+const LoginWithGoogle = async (credentials) => {
+  const client = new OAuth2Client(credentials.sub);
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken:
@@ -14,13 +14,13 @@ const LoginWithGoogle = async (userDetails) => {
     });
     const payload = ticket.getPayload();
     const userid = payload["sub"];
-    console.log({payload});
+    console.log({ payload });
     // If request specified a G Suite domain:
     // const domain = payload['hd'];
   }
   verify().catch(console.error);
   try {
-    const res = await usersDal.LoginWithGoogle(userDetails);
+    const res = await usersDal.LoginWithGoogle(credentials);
     return client;
   } catch (err) {
     console.error(err);
