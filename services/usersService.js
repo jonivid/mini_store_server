@@ -4,7 +4,32 @@ const Hashes = require("jshashes");
 const SHA256 = new Hashes.SHA256();
 const jwt = require("jsonwebtoken");
 
-const LoginWithGoogle = async (credentials) => {
+const login = async (loginValues) => {
+  try {
+    loginValues = {
+      ...loginValues,
+      password: SHA256.hex(loginValues.password),
+    };
+    const res = await usersDal.login(loginValues);
+
+    if (res.status === true) {
+      const { email, is_admin, first_name, family_name } = res;
+      return {
+        token: generateToken(res),
+        email,
+        isAdmin: is_admin,
+        firstName: first_name,
+        familyName: family_name,
+      };
+    } else {
+      return res;
+    }
+  } catch (err) {
+    console.error("error at login service layer", err);
+  }
+};
+
+const loginWithGoogle = async (credentials) => {
   try {
     const client = new OAuth2Client(credentials.clientId);
     const ticket = await client.verifyIdToken({
@@ -15,17 +40,17 @@ const LoginWithGoogle = async (credentials) => {
     });
     let payload = ticket.getPayload();
     payload = { ...payload, sub: SHA256.hex(payload.sub) };
-    const res = await usersDal.LoginWithGoogle(payload);
-    const { email, isAdmin, given_name, family_name } = res;
+    const res = await usersDal.loginWithGoogle(payload);
+    const { email, isAdmin, first_name, family_name } = res;
     return {
       token: generateToken(res),
       email,
       isAdmin,
-      given_name,
-      family_name,
+      firstName: first_name,
+      familyName: family_name,
     };
   } catch (err) {
-    console.error("error at LoginWithGoogle service layer", err);
+    console.error("error at loginWithGoogle service layer", err);
   }
 };
 const generateToken = (res) => {
@@ -33,5 +58,6 @@ const generateToken = (res) => {
   return token;
 };
 module.exports = {
-  LoginWithGoogle,
+  login,
+  loginWithGoogle,
 };
